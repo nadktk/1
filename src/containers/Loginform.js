@@ -24,7 +24,7 @@ class Loginform extends Component {
       this.setState({ open: true });
     };
     
-    handlePost = () => {
+    handleLogin = () => {
       this.props.login(true);
       let data = {
           login: this.state.username,
@@ -67,8 +67,11 @@ class Loginform extends Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handlePost} color="primary">
+            <Button onClick={this.handleLogin} color="primary">
               Login
+            </Button>
+            <Button onClick={this.handlePost} color="primary">
+              Register
             </Button>
           </DialogActions>
         </Dialog>
