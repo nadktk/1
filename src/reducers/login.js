@@ -1,6 +1,6 @@
-export default function (state = 'User', action) {
+export default function (state = false, action) {
     switch (action.type) {
-        case "SET_USERNAME":
+        case "LOGIN":
             return action.payload;
         default: 
             return state;
