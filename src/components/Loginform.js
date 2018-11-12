@@ -4,11 +4,14 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+//import axios from 'axios';
 
 class Loginform extends Component {
+
     state = {
+        username: '',
+        password: '',
         open: false,
       };
 
@@ -16,9 +19,18 @@ class Loginform extends Component {
         this.setState({ open: true });
       };
     
-      handleClose = () => {
+      handlePost = () => {
         this.setState({ open: false });
+        let data = {
+            login: this.state.username,
+            password: this.state.password
+        };
+        const url = 'https://incode-shop.herokuapp.com/';
+        console.log(url);
+        console.log(data);
       };
+
+
 
       render() {
           return (
@@ -26,8 +38,7 @@ class Loginform extends Component {
                   <Button onClick={this.handleClickOpen} variant="contained">Please login</Button>
         <Dialog
           open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
+          onClose={this.handlePost}
         >
           <DialogTitle id="form-dialog-title">Hello user</DialogTitle>
           <DialogContent>
@@ -45,7 +56,7 @@ class Loginform extends Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handlePost} color="primary">
               Login
             </Button>
           </DialogActions>
