@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
-import './App.css';
-import Loginform from './containers/Loginform';
 import {connect} from 'react-redux';
+import LoginForm from './_containers/LoginForm';
 
-class App extends Component {
+class App extends Component {    
   render() {
-    return (
-      <div className="App">
-        <Loginform />
-        Hello, {this.props.username}
-      </div>
-    );
+    const { username, authorized } = this.props;
+    return authorized
+      ? <h1>Hello, {username}</h1>
+      : <LoginForm />
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    username: state.username
+    username: state.username,
+    authorized: state.authorized
   }
 }
 

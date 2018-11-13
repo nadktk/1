@@ -1,76 +1,74 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { authorization } from '../_actions/authorization';
+import { username } from '../_actions/username';
+
+// import material ui elements
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {login} from '../actions/login';
-import {username} from '../actions/username';
 
-class Loginform extends Component {
+
+class LoginForm extends Component {
 
     constructor(props) {
       super(props);
       this.state = {
-        username: '',
-        password: '',
-      };
+        login: '',
+        password: ''
+      }
     }
 
-    handleClickOpen = () => {
-      this.setState({ open: true });
-    };
-    
-    handleLogin = () => {
-      this.props.login(true);
+    handleChange = (e) => {
+      this.setState({
+        [e.target.name]: e.target.value
+      });
+    } 
+
+    handleAuth = () => {
       let data = {
-          login: this.state.username,
+          login: this.state.login,
           password: this.state.password
       };
-      const url = 'https://incode-shop.herokuapp.com/';
-      console.log(url);
-      console.log(data);
-    };
-
-    handleChange = (e) => {
-      const {name, value} = e.target; 
-      this.setState({ [name]: value });
+      this.props.authorization(data);
+      this.props.username(data.login);
     };
 
     render() {
       return (
         <div>
           <Dialog
-            open={!this.props.authorized}
-            onClose={this.handlePost}
+            open={true}
           >
           <DialogTitle id="form-dialog-title">Hello user</DialogTitle>
           <DialogContent>
             <TextField
               id="name"
-              name="username"
+              name="login"
               label="Login"
               type="text"
-              onChange={this.handleChange}
               fullWidth
+              onChange={this.handleChange} 
             />
             <TextField
               id="password"
               name="password"
               label="Password"
               type="password"
-              onChange={this.handleChange}
               fullWidth
+              onChange={this.handleChange} 
             />
+
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleLogin} color="primary">
+            <Button onClick={this.handleAuth} color="primary">
               Login
             </Button>
-            <Button onClick={this.handlePost} color="primary">
+            <Button onClick={this.handleReg} color="primary">
               Register
             </Button>
           </DialogActions>
@@ -89,9 +87,9 @@ const mapStateToProps = (state) => {
 
 const matchDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    login: login,
+    authorization: authorization,
     username: username
   }, dispatch)
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Loginform);
+export default connect(mapStateToProps, matchDispatchToProps)(LoginForm);
