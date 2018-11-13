@@ -1,8 +1,12 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/authorization';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from '../actions/user-actions';
 
+let user = 'Guest';
+if (localStorage.getItem("user")!=null) {
+    user = JSON.parse(localStorage.getItem("user")).login;
+} 
 const initialState = {
     user: 'Guest',
-    isAuthorized: false,
+    isAuthorized: !(user==='Guest'),
     loading: false
 }
 
@@ -27,9 +31,16 @@ const loginReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                user: {},
+                user: 'Guest',
                 isAuthorized: false
             }            
+        }
+        case LOGOUT: {
+            return {
+                ...state,
+                user: 'Guest',
+                isAuthorized: false
+            }
         }
         default: {
             return {...state};

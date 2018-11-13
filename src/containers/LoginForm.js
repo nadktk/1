@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import login from '../actions/authorization';
-import registration from '../actions/registration';
+import { login, logout, register } from '../actions/user-actions';
 
 // import material ui elements
 import Button from '@material-ui/core/Button';
@@ -30,7 +29,7 @@ class LoginForm extends Component {
     } 
 
     handleAuth = () => {
-        this.props.authorization({
+        this.props.login({
           login: this.state.login,
           password: this.state.password
         });
@@ -40,16 +39,25 @@ class LoginForm extends Component {
         })
     };
 
-    handleReg = () => {      
-        this.props.registration({
-          login: this.state.login,
-          password: this.state.password
-        });
-        this.setState({
-          login: '',
-          password: '',
-          message: 'Registration completed. Please login'
+    handleReg = () => {
+        let { login, password } = this.state;
+        if (login.length<4||login.length>15||password.length<4||password.length>15) {
+          this.setState({
+            login: '',
+            password: '',
+            message: 'Username and password should be 4-15 characters long.\n Try again'
+          })
+        } else {
+          this.props.register({
+            login: login,
+            password: password
+          });
+          this.setState({
+            login: '',
+            password: '',
+            message: 'Registration completed. Please login'
         })
+      }
     }
 
     render() {
@@ -85,7 +93,7 @@ class LoginForm extends Component {
               Login
             </Button>
             <Button onClick={this.handleReg} color="primary">
-              Register
+              Registration
             </Button>
           </DialogActions>
         </Dialog>
@@ -103,8 +111,9 @@ const mapStateToProps = (state) => {
 
 const matchDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    authorization: login,
-    registration: registration
+    login: login,
+    logout: logout,
+    register: register
   }, dispatch)
 }
 

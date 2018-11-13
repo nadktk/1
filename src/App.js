@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import LoginForm from './containers/LoginForm';
 import { bindActionCreators } from 'redux';
-import login from './actions/authorization';
+import {logout} from './actions/user-actions';
 
 //material ui
 import Button from '@material-ui/core/Button';
@@ -11,14 +11,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 class App extends Component {
-
-  componentWillMount(){
-    console.log('localStorage', localStorage);
-  }
-
-  handleLogout() {
-    this.props.authorization({});
-  }
   
   render() {
     const { user, isAuthorized } = this.props;
@@ -27,7 +19,7 @@ class App extends Component {
          <AppBar color="default">
          <Toolbar>
          <Button 
-            onClick={this.handleLogout.bind(this)}
+            onClick={()=>{this.props.logout()}}
             color="inherit"
             variant="contained"
             style={{marginRight: "20px"}}
@@ -55,7 +47,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
-    authorization: login
+    logout: logout
   }, dispatch)
 }
 
