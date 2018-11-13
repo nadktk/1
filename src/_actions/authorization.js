@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const authorization = (data) => {
 
-    console.log('authorization action', data);
+    console.log('authorization actiongit', data);
 
     axios({
         method: 'get',
