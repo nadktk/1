@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { authorization } from '../_actions/authorization';
-import { username } from '../_actions/username';
+import login from '../actions/authorization';
+import registration from '../actions/registration';
 
 // import material ui elements
 import Button from '@material-ui/core/Button';
@@ -12,13 +12,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-
-//axios config
-import axios from 'axios';
-const instance = axios.create({
-  baseURL: 'https://incode-shop.herokuapp.com'
-  //headers: {'Authentification': 'foobar'}
-}); 
 
 class LoginForm extends Component {
     constructor(props) {
@@ -37,50 +30,26 @@ class LoginForm extends Component {
     } 
 
     handleAuth = () => {
-      let data = {
+        this.props.authorization({
           login: this.state.login,
           password: this.state.password
-      };
-
-      instance.post('/login', data)
-        .then( res => {
-          //console.log(res.data);
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('user', data.login);               
-          this.props.authorization(true);
-          this.props.username(data.login);
+        });
+        this.setState({
+          login: '',
+          password: ''
         })
-        .catch( error => {
-          console.log(error);
-          this.setState({
-            message: 'Wrong login or password, try again:',
-            login: '',
-            password: ''
-          })
-      });
     };
 
-    handleReg = () => {
-      let data = {
-        login: this.state.login,
-        password: this.state.password
-      };
-      instance.post('/auth', data)
-        .then( res => {
-          //console.log(res.data);
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('user', data.login);      
-          this.props.authorization(true);
-          this.props.username(data.login);
+    handleReg = () => {      
+        this.props.registration({
+          login: this.state.login,
+          password: this.state.password
+        });
+        this.setState({
+          login: '',
+          password: '',
+          message: 'Registration completed. Please login'
         })
-        .catch( error => {
-          console.log(error);
-          this.setState({
-            message: 'Something went wrong, please try another login:',
-            login: '',
-            password: ''
-        })
-    });
     }
 
     render() {
@@ -134,8 +103,8 @@ const mapStateToProps = (state) => {
 
 const matchDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    authorization: authorization,
-    username: username
+    authorization: login,
+    registration: registration
   }, dispatch)
 }
 

@@ -5,7 +5,8 @@ import App from './App';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import rootReducer from './_reducers';
+import rootReducer from './reducers';
+window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 

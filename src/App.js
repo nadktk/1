@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import LoginForm from './_containers/LoginForm';
+import LoginForm from './containers/LoginForm';
 import { bindActionCreators } from 'redux';
-import { authorization } from './_actions/authorization';
-import { username } from './_actions/username';
+import login from './actions/authorization';
 
 //material ui
 import Button from '@material-ui/core/Button';
@@ -13,15 +12,17 @@ import Typography from '@material-ui/core/Typography';
 
 class App extends Component {
 
+  componentWillMount(){
+    console.log('localStorage', localStorage);
+  }
+
   handleLogout() {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    this.props.authorization(false);
+    this.props.authorization({});
   }
   
   render() {
-    const { user, authorized } = this.props;
-    return authorized
+    const { user, isAuthorized } = this.props;
+    return isAuthorized
       ? (<div>
          <AppBar color="default">
          <Toolbar>
@@ -34,7 +35,7 @@ class App extends Component {
          Logout
          </Button>
 
-        <Typography variant="h6" color="inherit">
+         <Typography variant="h6" color="inherit">
             Hello, {user}
          </Typography>
 
@@ -47,15 +48,14 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.username,
-    authorized: state.authorized
+    user: state.login.user,
+    isAuthorized: state.login.isAuthorized
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
-    authorization: authorization,
-    username: username
+    authorization: login
   }, dispatch)
 }
 
