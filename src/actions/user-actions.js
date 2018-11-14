@@ -1,33 +1,39 @@
 import instance from '../helpers/axios-instance';
 
-export const LOGIN_REQUEST = '[Auth] Login Request';
-export const LOGIN_SUCCESS = '[Auth] Login Success';
-export const LOGIN_FAIL = '[Auth] Login Fail';
+export const LOGIN_REQUEST = 'User Login Request';
+export const LOGIN_SUCCESS = 'User Login Success';
+export const LOGIN_FAIL = 'User Login Fail';
 export const LOGOUT = 'User Logout';
 export const REGISTRATION_SUCCESS = 'User Registration Success';
 export const REGISTRATION_FAIL = 'User Registration Fail';
+
+
+export const getUserByToken = (token) => (dispatch) => {
+    instance.get('./user', { headers: {"Authorization": "Bearer " + token} })
+        .then( res => {
+            localStorage.setItem('user', token);
+            dispatch({
+               type: LOGIN_SUCCESS,
+               payload: res.data.login
+            })
+        })
+        .catch( (err) => {
+            console.log(err);
+            dispatch ({
+                type: LOGIN_FAIL,
+            })
+        });
+};
 
 export const login = (authData) => (dispatch) => {
     dispatch({
         type: LOGIN_REQUEST
     });
     instance.post('/login', authData)
-        .then((response) => {
-            const token = 'Bearer ' + response.data.token;
-            instance.get('./user', {headers:{"Authorization": token}})
-                .then( res => {
-                    localStorage.setItem('user', JSON.stringify(res.data));
-                    dispatch({
-                        type: LOGIN_SUCCESS,
-                        payload: res.data.login
-                    })
-                }
-                )
-                .catch((error) => {
-                    dispatch({
-                        type: LOGIN_FAIL
-                    })
-                })           
+        .then((res) => {
+            const token = res.data.token;
+            localStorage.setItem('user', token);
+            dispatch(getUserByToken(token));                
         })
         .catch((error) => {            
             dispatch({

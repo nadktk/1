@@ -1,12 +1,8 @@
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from '../actions/user-actions';
 
-let user = 'Guest';
-if (localStorage.getItem("user")!=null) {
-    user = JSON.parse(localStorage.getItem("user")).login;
-} 
 const initialState = {
     user: 'Guest',
-    isAuthorized: !(user==='Guest'),
+    isAuthorized: false,
     loading: false
 }
 
