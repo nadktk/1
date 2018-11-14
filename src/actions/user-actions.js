@@ -1,17 +1,10 @@
 import instance from '../helpers/axios-instance';
-
-export const LOGIN_REQUEST = 'User Login Request';
-export const LOGIN_SUCCESS = 'User Login Success';
-export const LOGIN_FAIL = 'User Login Fail';
-export const LOGOUT = 'User Logout';
-export const REGISTRATION_SUCCESS = 'User Registration Success';
-export const REGISTRATION_FAIL = 'User Registration Fail';
-
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, REGISTRATION_FAIL, REGISTRATION_SUCCESS } from '../constants/action-types';
 
 export const getUserByToken = (token) => (dispatch) => {
     instance.get('./user', { headers: {"Authorization": "Bearer " + token} })
         .then( res => {
-            localStorage.setItem('user', token);
+            localStorage.setItem('token', token);
             dispatch({
                type: LOGIN_SUCCESS,
                payload: res.data.login
@@ -32,7 +25,6 @@ export const login = (authData) => (dispatch) => {
     instance.post('/login', authData)
         .then((res) => {
             const token = res.data.token;
-            localStorage.setItem('user', token);
             dispatch(getUserByToken(token));                
         })
         .catch((error) => {            

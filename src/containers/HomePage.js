@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { logout } from '../actions/user-actions';
 
-
 //material ui
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';

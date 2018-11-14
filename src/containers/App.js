@@ -3,29 +3,40 @@ import {connect} from 'react-redux';
 import LoginForm from './LoginForm';
 import HomePage from './HomePage';
 import { bindActionCreators } from 'redux';
-import {logout, getUserByToken} from '../actions/user-actions';
+import { logout, getUserByToken } from '../actions/user-actions';
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
+//import history from '../helpers/history';
+import * as routes from '../constants/routes';
 
 class App extends Component {
 
-  componentWillMount() {
-    if (localStorage.getItem("user")!=null) {
-      let token = localStorage.getItem("user");
-      this.props.getUserByToken(token)
-    } 
+  componentDidMount(){
+    const token = localStorage.getItem('token');
+    token && this.props.getUserByToken(token);
   }
   
   render() {
-    const { isAuthorized } = this.props;    
-    return isAuthorized
-      ? <HomePage />
-      : <LoginForm />
+
+    return (
+    <Router>
+      <div>
+        <Switch>
+          <Route exact path={ routes.login } render={ () => this.props.isAuthorized ? <Redirect to={ routes.home } /> : <LoginForm /> } />
+          <Route exact path={ routes.home } render={ () => this.props.isAuthorized ? <HomePage /> : <Redirect to={ routes.login } /> } />
+          <Route exact path={ routes.main } render={ () => this.props.isAuthorized ? <Redirect to={ routes.home } /> : <Redirect to={ routes.login } /> } /> 
+        </Switch>
+      </div>
+    </Router>
+    )
+   
   }
 }
 
 const mapStateToProps = state => {
   return {
-    user: state.login.user,
-    isAuthorized: state.login.isAuthorized
+    isLoading: state.login.loading,
+    isAuthorized: state.login.isAuthorized,
+    user: state.login.user
   }
 }
 
