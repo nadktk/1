@@ -3,7 +3,8 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from '../constants/a
 const initialState = {
     user: 'Guest',
     isAuthorized: false,
-    loading: false
+    loading: false,
+    error: null
 }
 
 const loginReducer = (state = initialState, action) => {
@@ -20,7 +21,8 @@ const loginReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 isAuthorized: true,
-                user: action.payload
+                user: action.payload,
+                error: null
             }            
         }
         case LOGIN_FAIL: {
@@ -28,7 +30,8 @@ const loginReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 user: 'Guest',
-                isAuthorized: false
+                isAuthorized: false,
+                error: action.payload
             }            
         }
         case LOGOUT: {

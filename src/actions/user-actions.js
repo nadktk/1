@@ -11,7 +11,7 @@ export const getUserByToken = (token) => (dispatch) => {
             })
         })
         .catch( (err) => {
-            console.log(err);
+            console.log(err.response.data.error);           
             dispatch ({
                 type: LOGIN_FAIL,
             })
@@ -28,9 +28,10 @@ export const login = (authData) => (dispatch) => {
             dispatch(getUserByToken(token));                
         })
         .catch((err) => {
-            console.log(err);           
+            //console.log(err.response.data.error);           
             dispatch({
-                type: LOGIN_FAIL
+                type: LOGIN_FAIL,
+                payload: err.response.data.error + '. Try again'
             })
         })
 };
@@ -45,15 +46,16 @@ export const logout = () => {
 export const register = (regData) => (dispatch) => {
     instance.post('/auth', regData)
         .then((res) => {
-            console.log(res);
             dispatch({
                 type: REGISTRATION_SUCCESS
             });
+            dispatch(login(regData));
         })
-        .catch((error) => {
-            console.log(error);
+        .catch((err) => {
+            const regResult = err.response.data.error;           
             dispatch({
-                type: REGISTRATION_FAIL
+                type: REGISTRATION_FAIL,
+                payload: regResult
             });
         })
              
