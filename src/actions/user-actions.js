@@ -1,7 +1,10 @@
 import instance from '../helpers/axios-instance';
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, REGISTRATION_FAIL, REGISTRATION_SUCCESS } from '../constants/action-types';
+import { GET_USER_REQUEST, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, REGISTRATION_FAIL, REGISTRATION_SUCCESS } from '../constants/action-types';
 
 export const getUserByToken = (token) => (dispatch) => {
+    dispatch({ 
+        type: GET_USER_REQUEST
+    })
     instance.get('./user', { headers: {"Authorization": "Bearer " + token} })
         .then( res => {
             localStorage.setItem('token', token);

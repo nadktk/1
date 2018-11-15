@@ -1,3 +1,4 @@
+export const GET_USER_REQUEST = 'User Auth Request';
 export const LOGIN_REQUEST = 'User Login Request';
 export const LOGIN_SUCCESS = 'User Login Success';
 export const LOGIN_FAIL = 'User Login Fail';

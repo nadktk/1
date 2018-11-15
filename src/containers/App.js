@@ -17,7 +17,7 @@ class App extends Component {
   
   render() {
 
-    return this.props.isLoading ? <div>wait...</div> :
+    return ( this.props.isLoading || this.props.isAuthorizing ) ? <div>wait...</div> :
      (
     <Router>
       <div>
@@ -38,6 +38,7 @@ const mapStateToProps = state => {
   return {
     isLoading: state.login.loading,
     isAuthorized: state.login.isAuthorized,
+    isAuthorizing: state.login.isAuthorizing,
     user: state.login.user
   }
 }

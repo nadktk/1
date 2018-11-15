@@ -1,15 +1,22 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from '../constants/action-types';
+import { GET_USER_REQUEST, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from '../constants/action-types';
 
 const initialState = {
     user: 'Guest',
     isAuthorized: false,
     loading: false,
+    isAuthorizing: false,
     error: null
 }
 
 const loginReducer = (state = initialState, action) => {
     
     switch(action.type) {
+        case GET_USER_REQUEST: {
+            return {
+                ...state,
+                isAuthorizing: true
+            }
+        }
         case LOGIN_REQUEST: {
             return {
                 ...state,
@@ -21,6 +28,7 @@ const loginReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 isAuthorized: true,
+                isAuthorizing: false,
                 user: action.payload,
                 error: null
             }            
