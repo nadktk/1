@@ -5,7 +5,6 @@ import HomePage from './HomePage';
 import { bindActionCreators } from 'redux';
 import { logout, getUserByToken } from '../actions/user-actions';
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
-//import history from '../helpers/history';
 import * as routes from '../constants/routes';
 
 class App extends Component {
@@ -28,13 +27,11 @@ class App extends Component {
         </Switch>
       </div>
     </Router>
-    )
-   
+    )   
   }
 }
 
 const mapStateToProps = state => {
-  //console.log(state);
   return {
     isLoading: state.login.loading,
     isAuthorized: state.login.isAuthorized,
