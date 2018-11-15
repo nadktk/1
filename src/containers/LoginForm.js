@@ -20,7 +20,8 @@ class LoginForm extends Component {
     };
 
     handleReg = (login, password) => {
-        if (login.length<4||login.length>15||password.length<4||password.length>15) {
+
+      if (login.length<4||login.length>15||password.length<4||password.length>15) {
           this.setState({
             message: 'Username and password should be 4-15 characters long.\n Try again'
           })

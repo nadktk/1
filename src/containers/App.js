@@ -21,9 +21,9 @@ class App extends Component {
     <Router>
       <div>
         <Switch>
-          <Route exact path={ routes.login } render={ () => this.props.isAuthorized ? <Redirect to={ routes.home } /> : <LoginForm /> } />
-          <Route exact path={ routes.home } render={ () => this.props.isAuthorized ? <HomePage /> : <Redirect to={ routes.login } /> } />
-          <Route exact path={ routes.main } render={ () => this.props.isAuthorized ? <Redirect to={ routes.home } /> : <Redirect to={ routes.login } /> } /> 
+          <Route exact path={ routes.login } render={ () => (localStorage.getItem('token')) ? <Redirect to={ routes.home } /> : <LoginForm /> } />
+          <Route exact path={ routes.home } render={ () => (localStorage.getItem('token')) ? <HomePage /> : <Redirect to={ routes.login } /> } />
+          <Route exact path={ routes.main } render={ () => (localStorage.getItem('token')) ? <Redirect to={ routes.home } /> : <Redirect to={ routes.login } /> } /> 
         </Switch>
       </div>
     </Router>

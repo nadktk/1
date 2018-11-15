@@ -27,7 +27,8 @@ export const login = (authData) => (dispatch) => {
             const token = res.data.token;
             dispatch(getUserByToken(token));                
         })
-        .catch((error) => {            
+        .catch((err) => {
+            console.log(err);           
             dispatch({
                 type: LOGIN_FAIL
             })
